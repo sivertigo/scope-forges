@@ -73,7 +73,7 @@ export default function ColumnEditor({
   return (
     <div
       ref={columnRef}
-      className="border border-gray-600 rounded p-2 bg-gray-700"
+      className="border border-gray-600 rounded p-2 bg-gray-700 w-full"
     >
       {isEditing ? (
         <div className="space-y-2">

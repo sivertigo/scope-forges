@@ -24,7 +24,6 @@ export default function MermaidImporter({
       const text = e.target?.result as string;
       if (text) {
         const tables = parseMermaidToTables(text);
-        console.log(tables);
         onTablesGenerated(tables);
       }
       setIsLoading(false);

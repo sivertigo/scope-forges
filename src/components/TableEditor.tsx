@@ -24,6 +24,25 @@ export default function Table({
   const [isTitleEditing, setIsTitleEditing] = useState(false);
   const [tableName, setTableName] = useState(table.name);
 
+  const moveColumn = (columnId: string, direction: "up" | "down") => {
+    const currentIndex = table.columns.findIndex((c) => c.id === columnId);
+    if (currentIndex === -1) return;
+
+    const newIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+    if (newIndex < 0 || newIndex >= table.columns.length) return;
+
+    const newColumns = [...table.columns];
+    [newColumns[currentIndex], newColumns[newIndex]] = [
+      newColumns[newIndex],
+      newColumns[currentIndex],
+    ];
+
+    onUpdate({
+      ...table,
+      columns: newColumns,
+    });
+  };
+
   const addColumn = () => {
     const newColumn: ColumnData = {
       id: Date.now().toString(),
@@ -83,26 +102,46 @@ export default function Table({
         </button>
       </div>
       <div className="space-y-2">
-        {table.columns.map((column) => (
-          <Column
-            key={column.id}
-            column={column}
-            onUpdate={(updatedColumn) => {
-              onUpdate({
-                ...table,
-                columns: table.columns.map((c) =>
-                  c.id === updatedColumn.id ? updatedColumn : c
-                ),
-              });
-            }}
-            onDelete={() => {
-              onUpdate({
-                ...table,
-                columns: table.columns.filter((c) => c.id !== column.id),
-              });
-            }}
-            allTables={allTables}
-          />
+        {table.columns.map((column, index) => (
+          <div key={column.id} className="flex items-center space-x-2 w-full">
+            <div className="flex flex-col space-y-0.5">
+              <button
+                onClick={() => moveColumn(column.id, "up")}
+                disabled={index === 0}
+                className="px-1 py-0.5 bg-gray-700 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-xs"
+              >
+                ↑
+              </button>
+              <button
+                onClick={() => moveColumn(column.id, "down")}
+                disabled={index === table.columns.length - 1}
+                className="px-1 py-0.5 bg-gray-700 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-xs"
+              >
+                ↓
+              </button>
+            </div>
+            <div className="flex-1">
+              <Column
+                key={column.id}
+                column={column}
+                onUpdate={(updatedColumn) => {
+                  onUpdate({
+                    ...table,
+                    columns: table.columns.map((c) =>
+                      c.id === updatedColumn.id ? updatedColumn : c
+                    ),
+                  });
+                }}
+                onDelete={() => {
+                  onUpdate({
+                    ...table,
+                    columns: table.columns.filter((c) => c.id !== column.id),
+                  });
+                }}
+                allTables={allTables}
+              />
+            </div>
+          </div>
         ))}
       </div>
       <button

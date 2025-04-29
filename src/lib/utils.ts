@@ -40,7 +40,9 @@ export const parseMermaidToTables = (mermaidText: string): TableData[] => {
 
     // カラム定義
     if (currentTable && trimmedLine) {
-      const columnMatch = trimmedLine.match(/^\s*(\w+)\s+(\w+)(?:\s+FK)?$/);
+      const columnMatch = trimmedLine.match(
+        /^\s*(\w+)\s+(\w+)(?:\s+(PK|FK|PK\s+FK|FK\s+PK))?$/
+      );
       if (columnMatch) {
         const [, type, name] = columnMatch;
         const column: ColumnData = {
@@ -62,7 +64,6 @@ export const parseMermaidToTables = (mermaidText: string): TableData[] => {
     if (relationMatch) {
       const [, sourceTable, relationType, targetTable, columnName] =
         relationMatch;
-      console.log(sourceTable, relationType, targetTable, columnName);
       relations.push({
         sourceTable,
         targetTable,
@@ -135,8 +136,6 @@ export const convertERDToMermaid = (tables: TableData[]) => {
       }
     });
   });
-
-  console.log(mermaidCode);
 
   return mermaidCode;
 };
