@@ -1,4 +1,5 @@
-//           <TablePreview key={table.id} table={table} />
+// ERD全体のプレビュー。マークダウンに変換してからプレビューする。
+// マークダウンに変換するときは、テーブル名とカラム名をリンクにする。
 
 import { TableData } from "@/data/definition";
 

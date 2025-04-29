@@ -11,7 +11,7 @@ type ColumnProps = {
   allTables: TableData[];
 };
 
-export default function Column({
+export default function ColumnEditor({
   column,
   onUpdate,
   onDelete,
@@ -82,6 +82,11 @@ export default function Column({
               type="text"
               value={columnName}
               onChange={(e) => setColumnName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSave();
+                }
+              }}
               placeholder="Column name"
               className="border border-gray-600 bg-gray-800 text-white rounded px-2 py-1 flex-1"
             />
@@ -163,8 +168,11 @@ export default function Column({
           </div>
         </div>
       ) : (
-        <div className="flex items-center justify-between">
-          <div onClick={() => setIsEditing(true)}>
+        <div
+          className="flex items-center justify-between"
+          onClick={() => setIsEditing(true)}
+        >
+          <div>
             <span className="font-medium text-white">{column.name}</span>
             <span className="text-gray-300 ml-2">({column.type})</span>
             {column.isPrimaryKey && (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Column from "@/components/Column";
+import Column from "@/components/ColumnEditor";
 import { TableData, ColumnData } from "@/data/definition";
 
 type TableProps = {
@@ -27,7 +27,7 @@ export default function Table({
   const addColumn = () => {
     const newColumn: ColumnData = {
       id: Date.now().toString(),
-      name: "",
+      name: "column" + (table.columns.length + 1),
       type: "varchar",
       isPrimaryKey: false,
       isForeignKey: false,
@@ -55,6 +55,11 @@ export default function Table({
               type="text"
               value={tableName}
               onChange={(e) => setTableName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleNameChange();
+                }
+              }}
               className="border border-gray-600 bg-gray-700 text-white rounded px-2 py-1"
             />
             <button

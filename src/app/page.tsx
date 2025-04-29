@@ -2,7 +2,6 @@
 
 import Header from "@/components/base/Header";
 import GUIEditor from "@/components/GUIEditor";
-import Footer from "@/components/base/Footer";
 
 export default function Home() {
   return (
@@ -13,7 +12,6 @@ export default function Home() {
           <GUIEditor />
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
