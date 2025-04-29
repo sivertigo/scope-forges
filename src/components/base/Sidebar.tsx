@@ -8,7 +8,7 @@ interface SidebarProps {
 export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
   const menuItems = [
     { icon: "home", label: "ホーム", href: "/" },
-    { icon: "database", label: "ER図", href: "/er-diagrams" },
+    { icon: "database", label: "ER図", href: "/erd" },
     { icon: "settings", label: "設定", href: "/settings" },
   ];
 
@@ -19,9 +19,8 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
       }`}
     >
       <div className="flex items-center justify-between p-4">
-        {!isCollapsed && <h2 className="text-xl font-bold">ERDraw</h2>}
         <button onClick={onToggle} className="p-2 rounded-lg hover:bg-gray-700">
-          <Icon name={isCollapsed ? "menu" : "close"} size={24} />
+          <Icon name={isCollapsed ? "menu" : "menu"} size={24} />
         </button>
       </div>
       <nav className="mt-4">
