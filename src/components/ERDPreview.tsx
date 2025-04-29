@@ -80,7 +80,7 @@ export default function ERDPreview({ tables }: ERDPreviewProps) {
     <div
       ref={containerRef}
       className={`bg-white p-4 rounded-lg shadow bg-gray-800 ${
-        isFullscreen ? "fixed inset-0 z-50 p-8" : ""
+        isFullscreen ? "fixed inset-0 z-50 p-8 overflow-auto" : ""
       }`}
     >
       <div className="flex justify-end gap-2 mb-4">
@@ -121,7 +121,10 @@ export default function ERDPreview({ tables }: ERDPreviewProps) {
           テキストとしてエクスポート
         </Button>
       </div>
-      <div ref={mermaidRef} className="mermaid"></div>
+      <div
+        ref={mermaidRef}
+        className="mermaid overflow-auto max-h-[calc(100vh-8rem)]"
+      ></div>
     </div>
   );
 }

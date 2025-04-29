@@ -40,7 +40,7 @@ export default function GUIEditor() {
         <div className="flex justify-between items-center">
           <div className="flex gap-2">
             <Button
-              variant={viewMode === "both" ? "default" : "outline"}
+              variant={viewMode === "both" ? "outline" : "default"}
               size="sm"
               onClick={() => setViewMode("both")}
               className="flex items-center gap-2"
@@ -49,7 +49,7 @@ export default function GUIEditor() {
               両方表示
             </Button>
             <Button
-              variant={viewMode === "table" ? "default" : "outline"}
+              variant={viewMode === "table" ? "outline" : "default"}
               size="sm"
               onClick={() => setViewMode("table")}
               className="flex items-center gap-2"
@@ -58,7 +58,7 @@ export default function GUIEditor() {
               テーブルのみ
             </Button>
             <Button
-              variant={viewMode === "erd" ? "default" : "outline"}
+              variant={viewMode === "erd" ? "outline" : "default"}
               size="sm"
               onClick={() => setViewMode("erd")}
               className="flex items-center gap-2"
@@ -117,8 +117,8 @@ export default function GUIEditor() {
       </div>
 
       {showCreateMenu && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
+        <div className="fixed inset-0 bg-black/50 dark:bg-black/70 flex items-center justify-center">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-2xl w-full">
             <ERDCreateMenu
               onTablesGenerated={(newTables) => {
                 setTables(newTables);
