@@ -142,3 +142,95 @@ export const convertERDToMermaid = (tables: TableData[]) => {
 
   return mermaidCode;
 };
+
+export const generatePostgreSQLDDL = (tables: TableData[]): string => {
+  let ddl = "";
+
+  // データ型のマッピング
+  const typeMapping: { [key: string]: string } = {
+    varchar: "VARCHAR(255)",
+    int: "INTEGER",
+    bigint: "BIGINT",
+    text: "TEXT",
+    boolean: "BOOLEAN",
+    date: "DATE",
+    datetime: "TIMESTAMP",
+    timestamp: "TIMESTAMP",
+  };
+
+  // テーブル定義の生成
+  tables.forEach((table) => {
+    // テーブルコメントの追加
+    ddl += `-- ${table.name}テーブルの定義\n`;
+    ddl += `CREATE TABLE "${table.name}" (\n`;
+
+    // カラム定義の生成
+    const columnDefinitions = table.columns.map((column) => {
+      const pgType =
+        typeMapping[column.type.toLowerCase()] || column.type.toUpperCase();
+      let columnDef = `    "${column.name}" ${pgType}`;
+
+      // NOT NULL制約
+      if (column.isPrimaryKey) {
+        columnDef += " NOT NULL";
+      }
+
+      // コメントの追加
+      if (column.comment) {
+        columnDef += ` -- ${column.comment}`;
+      }
+
+      return columnDef;
+    });
+
+    // 主キー制約の生成
+    const primaryKeys = table.columns
+      .filter((col) => col.isPrimaryKey)
+      .map((col) => `"${col.name}"`);
+
+    if (primaryKeys.length > 0) {
+      columnDefinitions.push(`    PRIMARY KEY (${primaryKeys.join(", ")})`);
+    }
+
+    ddl += columnDefinitions.join(",\n");
+    ddl += "\n);\n\n";
+
+    // テーブルコメントの追加
+    if (table.comment) {
+      ddl += `COMMENT ON TABLE "${table.name}" IS '${table.comment}';\n\n`;
+    }
+
+    // カラムコメントの追加
+    table.columns.forEach((column) => {
+      if (column.comment) {
+        ddl += `COMMENT ON COLUMN "${table.name}"."${column.name}" IS '${column.comment}';\n`;
+      }
+    });
+    ddl += "\n";
+
+    // 外部キー制約の生成
+    table.columns.forEach((column) => {
+      if (column.isForeignKey && column.foreignKeyReference) {
+        const refTable = tables.find(
+          (t) => t.id === column.foreignKeyReference?.tableId
+        );
+        const refColumn = refTable?.columns.find(
+          (c) => c.id === column.foreignKeyReference?.columnId
+        );
+
+        if (refTable && refColumn) {
+          const constraintName = `fk_${table.name}_${column.name}`;
+          ddl += `ALTER TABLE "${table.name}"\n`;
+          ddl += `    ADD CONSTRAINT "${constraintName}"\n`;
+          ddl += `    FOREIGN KEY ("${column.name}")\n`;
+          ddl += `    REFERENCES "${refTable.name}" ("${refColumn.name}");\n\n`;
+
+          // 外部キーカラムにインデックスを追加
+          ddl += `CREATE INDEX "idx_${constraintName}" ON "${table.name}" ("${column.name}");\n\n`;
+        }
+      }
+    });
+  });
+
+  return ddl;
+};

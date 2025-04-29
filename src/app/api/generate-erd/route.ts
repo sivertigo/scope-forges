@@ -11,6 +11,7 @@ export async function POST(request: Request) {
 
     const prompt = `
 以下のテキストからERDを生成してください。
+カラムの型定義は、int8, varchar, text, timestamp, boolean, float, double, date などを使用してください。Supabaseの型定義参考.
 テキスト: ${text}
 
 以下の形式でJSONを返してください：
@@ -39,8 +40,9 @@ export async function POST(request: Request) {
 
     const completion = await openai.chat.completions.create({
       messages: [{ role: "user", content: prompt }],
-      model: "gpt-4",
+      model: "gpt-4o-mini",
       temperature: 0.7,
+      response_format: { type: "json_object" },
     });
 
     const response = completion.choices[0].message.content;
@@ -48,8 +50,14 @@ export async function POST(request: Request) {
       throw new Error("No response from OpenAI");
     }
 
-    const tables = JSON.parse(response).tables;
-    return NextResponse.json({ tables });
+    // parseが失敗したらエラー。
+    try {
+      const tables = JSON.parse(response).tables;
+      return NextResponse.json({ tables });
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+      throw new Error("Failed to parse JSON response");
+    }
   } catch (error) {
     console.error("Error generating ERD:", error);
     return NextResponse.json(

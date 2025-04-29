@@ -2,6 +2,7 @@ interface TableData {
   id: string;
   name: string;
   columns: ColumnData[];
+  comment?: string;
 }
 
 interface ColumnData {

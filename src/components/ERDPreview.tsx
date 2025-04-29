@@ -4,8 +4,14 @@ import { TableData } from "@/data/definition";
 import mermaid from "mermaid";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { FileText, RefreshCw, Maximize2, Minimize2 } from "lucide-react";
-import { convertERDToMermaid } from "@/lib/utils";
+import {
+  FileText,
+  RefreshCw,
+  Maximize2,
+  Minimize2,
+  Database,
+} from "lucide-react";
+import { convertERDToMermaid, generatePostgreSQLDDL } from "@/lib/utils";
 
 interface ERDPreviewProps {
   tables: TableData[];
@@ -45,6 +51,19 @@ export default function ERDPreview({ tables }: ERDPreviewProps) {
     const link = document.createElement("a");
     link.href = url;
     link.download = "erd-diagram.mmd";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportDDL = () => {
+    const ddl = generatePostgreSQLDDL(tables);
+    const blob = new Blob([ddl], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "schema.sql";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -119,6 +138,15 @@ export default function ERDPreview({ tables }: ERDPreviewProps) {
         >
           <FileText className="w-4 h-4" />
           テキストとしてエクスポート
+        </Button>
+        <Button
+          onClick={handleExportDDL}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <Database className="w-4 h-4" />
+          DDLをエクスポート
         </Button>
       </div>
       <div
