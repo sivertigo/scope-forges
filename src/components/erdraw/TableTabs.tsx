@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { TableData } from "@/data/definition";
-import TableEditor from "@/components/TableEditor";
+import TableEditor from "@/components/erdraw/TableEditor";
 import { cn } from "@/lib/utils";
 
 interface TableTabsProps {

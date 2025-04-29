@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Column from "@/components/ColumnEditor";
+import Column from "@/components/erdraw/ColumnEditor";
 import { TableData, ColumnData } from "@/data/definition";
-import { DeleteIcon, PlusIcon, MoreVerticalIcon } from "./ui/icon";
+import { DeleteIcon, PlusIcon, MoreVerticalIcon } from "@/components/ui/icon";
 
 const DEFAULT_VISIBLE_COLUMNS = 6;
 

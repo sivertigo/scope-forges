@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { TableData } from "@/data/definition";
-import ERDPreview from "@/components/ERDPreview";
-import ERDCreateMenu from "@/components/ERDCreateMenu";
-import TableTabs from "@/components/TableTabs";
+import ERDPreview from "@/components/erdraw/ERDPreview";
+import ERDCreateMenu from "@/components/erdraw/ERDCreateMenu";
+import TableTabs from "@/components/erdraw/TableTabs";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid, Table, Eye, Plus } from "lucide-react";
 

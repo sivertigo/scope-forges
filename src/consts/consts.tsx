@@ -1,4 +1,4 @@
-const DATA_TYPES = [
+const POSTGRESQL_DATA_TYPES = [
   "varchar",
   "int",
   "bigint",
@@ -9,4 +9,4 @@ const DATA_TYPES = [
   "timestamp",
 ];
 
-export { DATA_TYPES };
+export { POSTGRESQL_DATA_TYPES };

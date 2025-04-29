@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { TableData } from "@/data/definition";
 import ERDGenerator from "./ERDGenerator";
-import MermaidImporter from "./MermaidImporter";
+import MermaidImporter from "@/components/erdraw/MermaidImporter";
 
 interface ERDCreatorProps {
   onTablesGenerated: (tables: TableData[]) => void;

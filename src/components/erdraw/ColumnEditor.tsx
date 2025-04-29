@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { DATA_TYPES } from "@/consts/consts";
+import { POSTGRESQL_DATA_TYPES } from "@/consts/consts";
 import { ColumnData, TableData } from "@/data/definition";
 import { DeleteIcon, EditIcon } from "@/components/ui/icon";
 type ColumnProps = {
@@ -103,7 +103,7 @@ export default function ColumnEditor({
               onChange={(e) => setColumnType(e.target.value)}
               className="border border-gray-600 bg-gray-800 text-white rounded px-2 py-1"
             >
-              {DATA_TYPES.map((type) => (
+              {POSTGRESQL_DATA_TYPES.map((type) => (
                 <option key={type} value={type}>
                   {type}
                 </option>
