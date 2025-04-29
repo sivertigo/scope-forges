@@ -191,31 +191,39 @@ export default function ColumnEditor({
         </div>
       ) : (
         <div
-          className="flex items-center justify-between"
+          className="flex items-start justify-between"
           onClick={() => setIsEditing(true)}
         >
-          <div>
-            <span className="font-medium text-white">{column.name}</span>
-            <span className="text-gray-300 ml-2">({column.type})</span>
-            {column.isPrimaryKey && (
-              <span className="ml-2 text-blue-400">PK</span>
-            )}
-            {column.isForeignKey && (
-              <span className="ml-2 text-purple-400">FK</span>
-            )}
-            {column.comment && (
-              <span className="ml-2 text-gray-400">{`${column.comment}`}</span>
-            )}
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-x-2">
+              <span className="font-medium text-white">{column.name}</span>
+              <span className="text-gray-300">({column.type})</span>
+              {column.isPrimaryKey && <span className="text-blue-400">PK</span>}
+              {column.isForeignKey && (
+                <span className="text-purple-400">FK</span>
+              )}
+              {column.comment && (
+                <span className="text-gray-400 break-words">
+                  {column.comment}
+                </span>
+              )}
+            </div>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             <button
-              onClick={() => setIsEditing(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsEditing(true);
+              }}
               className="text-blue-400 hover:text-blue-300"
             >
               <EditIcon />
             </button>
             <button
-              onClick={handleDelete}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete();
+              }}
               className="text-red-400 hover:text-red-300"
             >
               <DeleteIcon />
