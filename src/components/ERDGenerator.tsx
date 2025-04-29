@@ -46,7 +46,7 @@ export default function ERDGenerator({ onTablesGenerated }: ERDGeneratorProps) {
           id="erdInput"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded min-h-[200px]"
+          className="w-full p-2 border border-gray-300 rounded min-h-[100px]"
           placeholder="例：ユーザーテーブル（id, name, email）と注文テーブル（id, user_id, amount）を作成してください。"
         />
       </div>

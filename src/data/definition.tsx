@@ -1,10 +1,10 @@
-class TableData {
+interface TableData {
   id: string;
   name: string;
   columns: ColumnData[];
 }
 
-class ColumnData {
+interface ColumnData {
   id: string;
   name: string;
   type: string;
@@ -15,5 +15,12 @@ class ColumnData {
     columnId: string;
   };
 }
+interface RelationInfo {
+  sourceTable: string;
+  targetTable: string;
+  sourceColumn: string;
+  targetColumn: string;
+  relationType: string;
+}
 
-export { TableData, ColumnData };
+export type { TableData, ColumnData, RelationInfo };

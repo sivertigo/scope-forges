@@ -4,7 +4,7 @@ import { useState } from "react";
 import Table from "@/components/Table";
 import { TableData } from "@/data/definition";
 import ERDPreview from "@/components/ERDPreview";
-import ERDGenerator from "@/components/ERDGenerator";
+import ERDCreator from "@/components/ERDCreator";
 
 export default function GUIEditor() {
   const [tables, setTables] = useState<TableData[]>([]);
@@ -20,7 +20,7 @@ export default function GUIEditor() {
 
   return (
     <div className="space-y-8">
-      <ERDGenerator onTablesGenerated={setTables} />
+      <ERDCreator onTablesGenerated={setTables} />
 
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">テーブル一覧</h2>

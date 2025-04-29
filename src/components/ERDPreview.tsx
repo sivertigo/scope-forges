@@ -3,48 +3,13 @@
 import { TableData } from "@/data/definition";
 import mermaid from "mermaid";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Download, FileText } from "lucide-react";
+import { convertERDToMermaid } from "@/lib/utils";
 
 interface ERDPreviewProps {
   tables: TableData[];
 }
-
-const convertERDToMermaid = (tables: TableData[]) => {
-  let mermaidCode = "erDiagram\n";
-
-  // テーブル定義
-  tables.forEach((table) => {
-    mermaidCode += `    ${table.name} {\n`;
-    table.columns.forEach((column) => {
-      let columnDef = `        ${column.type} ${column.name}`;
-      if (column.isPrimaryKey) columnDef += " PK";
-      if (column.isForeignKey) {
-        columnDef += ` FK`;
-      }
-      mermaidCode += columnDef + "\n";
-    });
-    mermaidCode += "    }\n";
-  });
-
-  // リレーションシップ定義
-  tables.forEach((table) => {
-    table.columns.forEach((column) => {
-      if (column.isForeignKey && column.foreignKeyReference) {
-        const refTable = tables.find(
-          (t) => t.id === column.foreignKeyReference?.tableId
-        );
-        if (refTable) {
-          mermaidCode += `    ${refTable.name} ||--o{ ${table.name} : "${column.name}"\n`;
-        }
-      }
-    });
-  });
-
-  console.log(mermaidCode);
-
-  return mermaidCode;
-};
 
 export default function ERDPreview({ tables }: ERDPreviewProps) {
   const mermaidRef = useRef<HTMLDivElement>(null);
