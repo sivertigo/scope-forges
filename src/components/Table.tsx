@@ -47,7 +47,7 @@ export default function Table({
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow p-4">
+    <div className="bg-gray-800 rounded-lg shadow p-4 max-w-[500px]">
       <div className="flex items-center justify-between mb-4">
         {isTitleEditing ? (
           <div className="flex items-center space-x-2">

@@ -32,21 +32,24 @@ export default function GUIEditor() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="flex flex-wrap gap-4">
         {tables.map((table) => (
-          <Table
-            key={table.id}
-            table={table}
-            onUpdate={(updatedTable) => {
-              setTables(
-                tables.map((t) => (t.id === updatedTable.id ? updatedTable : t))
-              );
-            }}
-            onDelete={() => {
-              setTables(tables.filter((t) => t.id !== table.id));
-            }}
-            allTables={tables}
-          />
+          <div key={table.id} className="max-w-[500px] w-full">
+            <Table
+              table={table}
+              onUpdate={(updatedTable) => {
+                setTables(
+                  tables.map((t) =>
+                    t.id === updatedTable.id ? updatedTable : t
+                  )
+                );
+              }}
+              onDelete={() => {
+                setTables(tables.filter((t) => t.id !== table.id));
+              }}
+              allTables={tables}
+            />
+          </div>
         ))}
       </div>
 

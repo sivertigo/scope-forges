@@ -10,13 +10,16 @@
   },
   "dependencies": {
     "@mermaid-js/mermaid-cli": "^11.4.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.503.0",
     "marked": "^15.0.11",
     "mermaid": "^11.6.0",
     "next": "15.3.1",
     "openai": "^4.96.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-markdown": "^10.1.0"
+    "react-markdown": "^10.1.0",
+    "tailwind-merge": "^3.2.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
