@@ -30,21 +30,15 @@ export default function GUIEditor() {
     <div className="space-y-8">
       <ERDCreateMenu onTablesGenerated={setTables} />
 
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">テーブル一覧</h2>
-        <button
-          onClick={addTable}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          テーブルを追加
-        </button>
+      <div>
+        <h2 className="text-xl font-bold mb-4">テーブル一覧</h2>
+        <TableTabs
+          tables={tables}
+          onUpdate={handleTableUpdate}
+          onDelete={handleTableDelete}
+          onAddTable={addTable}
+        />
       </div>
-
-      <TableTabs
-        tables={tables}
-        onUpdate={handleTableUpdate}
-        onDelete={handleTableDelete}
-      />
 
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">ERD Preview</h2>
