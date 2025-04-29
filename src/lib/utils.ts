@@ -1,6 +1,5 @@
 import { RelationInfo, TableData, ColumnData } from "@/data/definition";
 import { type ClassValue, clsx } from "clsx";
-import { table } from "console";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -40,18 +39,19 @@ export const parseMermaidToTables = (mermaidText: string): TableData[] => {
 
     // カラム定義
     if (currentTable && trimmedLine) {
+      //
       const columnMatch = trimmedLine.match(
-        /^\s*(\w+)\s+(\w+)(?:\s+(PK|FK|PK\s+FK|FK\s+PK))?$/
+        /^\s*(\w+)\s+(\w+)(?:\s+(PK|FK|PK\s+FK|FK\s+PK))?(?:\s+"([^"]+)")?$/
       );
       if (columnMatch) {
-        const [, type, name] = columnMatch;
+        const [, type, name, keyType, comment] = columnMatch;
         const column: ColumnData = {
           id: (currentTable.columns.length + 1).toString(),
           name,
           type,
-          comment: "",
-          isPrimaryKey: false,
-          isForeignKey: trimmedLine.includes("FK"),
+          comment: comment || "",
+          isPrimaryKey: keyType?.includes("PK") || false,
+          isForeignKey: keyType?.includes("FK") || false,
         };
         currentTable.columns.push(column);
       }
@@ -117,6 +117,9 @@ export const convertERDToMermaid = (tables: TableData[]) => {
       if (column.isPrimaryKey) columnDef += " PK";
       if (column.isForeignKey) {
         columnDef += ` FK`;
+      }
+      if (column.comment) {
+        columnDef += ` "${column.comment}"`;
       }
       mermaidCode += columnDef + "\n";
     });

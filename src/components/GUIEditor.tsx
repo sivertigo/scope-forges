@@ -32,9 +32,9 @@ export default function GUIEditor() {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-row gap-4 overflow-x-auto pb-4">
         {tables.map((table) => (
-          <div key={table.id} className="max-w-[500px] w-full">
+          <div key={table.id} className="w-[500px]">
             <TableEditor
               table={table}
               onUpdate={(updatedTable) => {

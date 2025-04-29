@@ -47,7 +47,7 @@ export default function Table({
     const newColumn: ColumnData = {
       id: Date.now().toString(),
       name: "column" + (table.columns.length + 1),
-      type: "varchar",
+      type: "text",
       isPrimaryKey: false,
       isForeignKey: false,
       comment: "",
@@ -58,12 +58,62 @@ export default function Table({
     });
   };
 
+  const addSystemColumns = () => {
+    const systemColumns: ColumnData[] = [
+      {
+        id: Date.now().toString(),
+        name: "created_at",
+        type: "timestamp",
+        isPrimaryKey: false,
+        isForeignKey: false,
+        comment: "登録日",
+      },
+      {
+        id: (Date.now() + 1).toString(),
+        name: "created_by",
+        type: "int",
+        isPrimaryKey: false,
+        isForeignKey: false,
+        comment: "登録者",
+      },
+      {
+        id: (Date.now() + 2).toString(),
+        name: "updated_at",
+        type: "timestamp",
+        isPrimaryKey: false,
+        isForeignKey: false,
+        comment: "更新日",
+      },
+      {
+        id: (Date.now() + 3).toString(),
+        name: "updated_by",
+        type: "int",
+        isPrimaryKey: false,
+        isForeignKey: false,
+        comment: "更新者",
+      },
+    ];
+
+    onUpdate({
+      ...table,
+      columns: [...table.columns, ...systemColumns],
+    });
+  };
+
   const handleNameChange = () => {
     onUpdate({
       ...table,
       name: tableName,
     });
     setIsTitleEditing(false);
+  };
+
+  const handleDelete = () => {
+    if (
+      window.confirm(`テーブル "${table.name}" を削除してもよろしいですか？`)
+    ) {
+      onDelete();
+    }
   };
 
   return (
@@ -97,7 +147,10 @@ export default function Table({
             {table.name}
           </h3>
         )}
-        <button onClick={onDelete} className="text-red-400 hover:text-red-300">
+        <button
+          onClick={handleDelete}
+          className="text-red-400 hover:text-red-300"
+        >
           Delete
         </button>
       </div>
@@ -149,6 +202,12 @@ export default function Table({
         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded w-full hover:bg-blue-700"
       >
         Add Column
+      </button>
+      <button
+        onClick={addSystemColumns}
+        className="mt-2 px-4 py-2 bg-green-600 text-white rounded w-full hover:bg-green-700"
+      >
+        Add System Columns
       </button>
     </div>
   );

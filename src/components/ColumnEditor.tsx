@@ -23,6 +23,7 @@ export default function ColumnEditor({
   const [columnType, setColumnType] = useState(column.type);
   const [isPrimaryKey, setIsPrimaryKey] = useState(column.isPrimaryKey);
   const [isForeignKey, setIsForeignKey] = useState(column.isForeignKey);
+  const [columnComment, setColumnComment] = useState(column.comment || "");
   const [foreignKeyTable, setForeignKeyTable] = useState(
     column.foreignKeyReference?.tableId || ""
   );
@@ -56,7 +57,7 @@ export default function ColumnEditor({
       type: columnType,
       isPrimaryKey,
       isForeignKey,
-      comment: "",
+      comment: columnComment,
       foreignKeyReference: isForeignKey
         ? {
             tableId: foreignKeyTable,
@@ -123,6 +124,20 @@ export default function ColumnEditor({
               <span>Foreign Key</span>
             </label>
           </div>
+          <div className="space-y-2">
+            <input
+              type="text"
+              value={columnComment}
+              onChange={(e) => setColumnComment(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSave();
+                }
+              }}
+              placeholder="コメントを入力"
+              className="border border-gray-600 bg-gray-800 text-white rounded px-2 py-1 w-full"
+            />
+          </div>
           {isForeignKey && (
             <div className="space-y-2">
               <select
@@ -181,6 +196,9 @@ export default function ColumnEditor({
             )}
             {column.isForeignKey && (
               <span className="ml-2 text-purple-400">FK</span>
+            )}
+            {column.comment && (
+              <span className="ml-2 text-gray-400">{`// ${column.comment}`}</span>
             )}
           </div>
           <div className="flex items-center space-x-2">
