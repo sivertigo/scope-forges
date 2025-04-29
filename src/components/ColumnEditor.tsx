@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { DATA_TYPES } from "@/consts/consts";
 import { ColumnData, TableData } from "@/data/definition";
-
+import { DeleteIcon, EditIcon } from "@/components/ui/icon";
 type ColumnProps = {
   column: ColumnData;
   onUpdate: (column: ColumnData) => void;
@@ -49,6 +49,12 @@ export default function ColumnEditor({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isEditing]);
+
+  const handleDelete = () => {
+    if (window.confirm("このカラムを削除しますか？")) {
+      onDelete();
+    }
+  };
 
   const handleSave = () => {
     onUpdate({
@@ -198,7 +204,7 @@ export default function ColumnEditor({
               <span className="ml-2 text-purple-400">FK</span>
             )}
             {column.comment && (
-              <span className="ml-2 text-gray-400">{`// ${column.comment}`}</span>
+              <span className="ml-2 text-gray-400">{`${column.comment}`}</span>
             )}
           </div>
           <div className="flex items-center space-x-2">
@@ -206,13 +212,13 @@ export default function ColumnEditor({
               onClick={() => setIsEditing(true)}
               className="text-blue-400 hover:text-blue-300"
             >
-              Edit
+              <EditIcon />
             </button>
             <button
-              onClick={onDelete}
+              onClick={handleDelete}
               className="text-red-400 hover:text-red-300"
             >
-              Delete
+              <DeleteIcon />
             </button>
           </div>
         </div>

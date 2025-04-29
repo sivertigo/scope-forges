@@ -3,13 +3,10 @@
 import { useState } from "react";
 import Column from "@/components/ColumnEditor";
 import { TableData, ColumnData } from "@/data/definition";
+import { DeleteIcon } from "./ui/icon";
 
 type TableProps = {
-  table: {
-    id: string;
-    name: string;
-    columns: ColumnData[];
-  };
+  table: TableData;
   onUpdate: (table: TableData) => void;
   onDelete: () => void;
   allTables: TableData[];
@@ -151,7 +148,7 @@ export default function Table({
           onClick={handleDelete}
           className="text-red-400 hover:text-red-300"
         >
-          Delete
+          <DeleteIcon />
         </button>
       </div>
       <div className="space-y-2">
