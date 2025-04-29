@@ -1,5 +1,11 @@
 "use client";
 
+import { ScreenDesignForm } from "@/components/ScreenDesignForm";
+
 export default function Home() {
-  return <div className="min-h-screen flex flex-col"></div>;
+  return (
+    <main>
+      <ScreenDesignForm />
+    </main>
+  );
 }

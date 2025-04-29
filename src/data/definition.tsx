@@ -24,5 +24,26 @@ interface RelationInfo {
   targetColumn: string;
   relationType: string;
 }
+interface UIElement {
+  id: string;
+  type: string;
+  label: string;
+  value: string;
+  description: string;
+  required: boolean;
+}
+interface PreviewAreaProps {
+  sections: {
+    title: string;
+    elements: UIElement[];
+  }[];
+  title: string;
+}
 
-export type { TableData, ColumnData, RelationInfo };
+export type {
+  TableData,
+  ColumnData,
+  RelationInfo,
+  UIElement,
+  PreviewAreaProps,
+};
