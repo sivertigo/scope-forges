@@ -3,15 +3,16 @@
 import { TableData } from "@/data/definition";
 import mermaid from "mermaid";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  FileText,
-  RefreshCw,
-  Maximize2,
-  Minimize2,
-  Database,
-} from "lucide-react";
 import { convertERDToMermaid, generatePostgreSQLDDL } from "@/lib/utils";
+import {
+  ERDIconButton,
+  RefreshIcon,
+  MaximizeIcon,
+  MinimizeIcon,
+  FileTextIcon,
+  DatabaseIcon,
+} from "./ERDIcons";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 interface ERDPreviewProps {
   tables: TableData[];
@@ -96,63 +97,40 @@ export default function ERDPreview({ tables }: ERDPreviewProps) {
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className={`bg-white p-4 rounded-lg shadow bg-gray-800 ${
-        isFullscreen ? "fixed inset-0 z-50 p-8 overflow-auto" : ""
-      }`}
-    >
-      <div className="flex justify-end gap-2 mb-4">
-        <Button
-          onClick={handleRefresh}
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
-        >
-          <RefreshCw className="w-4 h-4" />
-          リフレッシュ
-        </Button>
-        <Button
-          onClick={toggleFullscreen}
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
-        >
-          {isFullscreen ? (
-            <>
-              <Minimize2 className="w-4 h-4" />
-              全画面を閉じる
-            </>
-          ) : (
-            <>
-              <Maximize2 className="w-4 h-4" />
-              全画面表示
-            </>
-          )}
-        </Button>
-        <Button
-          onClick={handleExportText}
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
-        >
-          <FileText className="w-4 h-4" />
-          テキストとしてエクスポート
-        </Button>
-        <Button
-          onClick={handleExportDDL}
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
-        >
-          <Database className="w-4 h-4" />
-          DDLをエクスポート
-        </Button>
-      </div>
+    <TooltipProvider>
       <div
-        ref={mermaidRef}
-        className="mermaid overflow-auto max-h-[calc(100vh-8rem)]"
-      ></div>
-    </div>
+        ref={containerRef}
+        className={`bg-white p-4 rounded-lg shadow bg-gray-800 ${
+          isFullscreen ? "fixed inset-0 z-50 p-8 overflow-auto" : ""
+        }`}
+      >
+        <div className="flex justify-end gap-2 mb-4">
+          <ERDIconButton
+            icon={<RefreshIcon />}
+            label="リフレッシュ"
+            onClick={handleRefresh}
+          />
+          <ERDIconButton
+            icon={isFullscreen ? <MinimizeIcon /> : <MaximizeIcon />}
+            label={isFullscreen ? "全画面を閉じる" : "全画面表示"}
+            onClick={toggleFullscreen}
+          />
+          <ERDIconButton
+            icon={<FileTextIcon />}
+            label="テキストとしてエクスポート"
+            onClick={handleExportText}
+          />
+          <ERDIconButton
+            icon={<DatabaseIcon />}
+            label="DDLをエクスポート"
+            onClick={handleExportDDL}
+          />
+        </div>
+        <div
+          ref={mermaidRef}
+          className="mermaid overflow-auto max-h-[calc(100vh-8rem)]"
+        ></div>
+      </div>
+    </TooltipProvider>
   );
 }

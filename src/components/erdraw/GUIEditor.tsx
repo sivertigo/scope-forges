@@ -1,12 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TableData } from "@/data/definition";
 import ERDPreview from "@/components/erdraw/ERDPreview";
 import ERDCreateMenu from "@/components/erdraw/ERDCreateMenu";
 import TableTabs from "@/components/erdraw/TableTabs";
 import { Button } from "@/components/ui/button";
-import { LayoutGrid, Table, Eye, Plus } from "lucide-react";
+import {
+  LayoutGrid,
+  Table,
+  Eye,
+  Plus,
+  Save,
+  Loader2,
+  Trash2,
+} from "lucide-react";
 
 type ViewMode = "both" | "table" | "erd";
 
@@ -14,6 +22,42 @@ export default function GUIEditor() {
   const [tables, setTables] = useState<TableData[]>([]);
   const [viewMode, setViewMode] = useState<ViewMode>("both");
   const [showCreateMenu, setShowCreateMenu] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // localStorageからデータを読み込む
+  useEffect(() => {
+    const savedTables = localStorage.getItem("erdTables");
+    if (savedTables) {
+      setTables(JSON.parse(savedTables));
+    }
+  }, []);
+
+  // テーブルデータが変更されたらlocalStorageに保存
+  useEffect(() => {
+    if (tables.length > 0) {
+      localStorage.setItem("erdTables", JSON.stringify(tables));
+    }
+  }, [tables]);
+
+  const handleSave = () => {
+    localStorage.setItem("erdTables", JSON.stringify(tables));
+  };
+
+  const handleLoad = () => {
+    setIsLoading(true);
+    const savedTables = localStorage.getItem("erdTables");
+    if (savedTables) {
+      setTables(JSON.parse(savedTables));
+    }
+    setIsLoading(false);
+  };
+
+  const handleClear = () => {
+    if (window.confirm("保存されているデータをクリアしてもよろしいですか？")) {
+      localStorage.removeItem("erdTables");
+      setTables([]);
+    }
+  };
 
   const addTable = () => {
     const newTable: TableData = {
@@ -65,6 +109,40 @@ export default function GUIEditor() {
             >
               <Eye className="h-4 w-4" />
               ERDのみ
+            </Button>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSave}
+              className="flex items-center gap-2"
+            >
+              <Save className="h-4 w-4" />
+              保存
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLoad}
+              className="flex items-center gap-2"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4" />
+              )}
+              読み込み
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleClear}
+              className="flex items-center gap-2 text-red-500 hover:text-red-600"
+            >
+              <Trash2 className="h-4 w-4" />
+              クリア
             </Button>
           </div>
         </div>

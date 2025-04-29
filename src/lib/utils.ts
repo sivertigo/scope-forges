@@ -6,6 +6,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * mermaidのテキストをテーブルとリレーションの情報に変換する
+ * @param mermaidText mermaidのテキスト
+ * @returns テーブルとリレーションの情報
+ */
 export const parseMermaidToTables = (mermaidText: string): TableData[] => {
   const tables: TableData[] = [];
   const relations: RelationInfo[] = [];
@@ -67,7 +72,7 @@ export const parseMermaidToTables = (mermaidText: string): TableData[] => {
       relations.push({
         sourceTable,
         targetTable,
-        sourceColumn: columnName,
+        sourceColumn: "id",
         targetColumn: columnName,
         relationType,
       });
@@ -95,9 +100,7 @@ export const parseMermaidToTables = (mermaidText: string): TableData[] => {
       if (targetColumn) {
         targetColumn.foreignKeyReference = {
           tableId: sourceTable.id,
-          columnId:
-            sourceTable.columns.find((c) => c.name === relation.sourceColumn)
-              ?.id || "",
+          columnId: sourceTable.columns.find((c) => c.name === "id")?.id || "",
         };
       }
     }
@@ -106,6 +109,11 @@ export const parseMermaidToTables = (mermaidText: string): TableData[] => {
   return tables;
 };
 
+/**
+ * テーブルとリレーションの情報をmermaidのテキストに変換する
+ * @param tables テーブルとリレーションの情報
+ * @returns mermaidのテキスト
+ */
 export const convertERDToMermaid = (tables: TableData[]) => {
   let mermaidCode = "erDiagram\n";
 
@@ -143,6 +151,11 @@ export const convertERDToMermaid = (tables: TableData[]) => {
   return mermaidCode;
 };
 
+/**
+ * テーブルとリレーションの情報をPostgreSQLのDDLに変換する
+ * @param tables テーブルとリレーションの情報
+ * @returns PostgreSQLのDDL
+ */
 export const generatePostgreSQLDDL = (tables: TableData[]): string => {
   let ddl = "";
 
