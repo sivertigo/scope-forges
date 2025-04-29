@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Column from "@/components/ColumnEditor";
 import { TableData, ColumnData } from "@/data/definition";
-import { DeleteIcon, PlusIcon } from "./ui/icon";
+import { DeleteIcon, PlusIcon, MoreVerticalIcon } from "./ui/icon";
 
 const DEFAULT_VISIBLE_COLUMNS = 6;
 
@@ -23,7 +23,7 @@ export default function Table({
   const [isTitleEditing, setIsTitleEditing] = useState(false);
   const [tableName, setTableName] = useState(table.name);
   const [showAllColumns, setShowAllColumns] = useState(false);
-  const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const moveColumn = (columnId: string, direction: "up" | "down") => {
     const currentIndex = table.columns.findIndex((c) => c.id === columnId);
@@ -118,7 +118,7 @@ export default function Table({
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow p-4 max-w-[500px]">
+    <div className="bg-gray-800 rounded-lg shadow p-4">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-2">
           <button
@@ -222,38 +222,37 @@ export default function Table({
           最初の{DEFAULT_VISIBLE_COLUMNS}カラムのみ表示
         </button>
       )}
-      <div className="relative mt-4">
+      {/* 左右に配置 */}
+      <div className="relative mt-4 flex items-center justify-between">
         <button
-          onClick={() => setIsAddMenuOpen(!isAddMenuOpen)}
+          onClick={() => addColumn()}
           className="flex items-center justify-center w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           <PlusIcon className="w-4 h-4 mr-2" />
           カラムを追加
         </button>
-        {isAddMenuOpen && (
-          <div className="absolute left-0 right-0 mt-1 bg-gray-700 rounded shadow-lg z-10">
-            <button
-              onClick={() => {
-                addColumn();
-                setIsAddMenuOpen(false);
-              }}
-              className="w-full px-4 py-2 text-left text-white hover:bg-gray-600 rounded-t"
-            >
-              通常カラムを追加
-            </button>
-            <div className="border-t border-gray-600">
+
+        <div className="relative">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-2 text-gray-400 hover:text-white hover:bg-gray-600 rounded"
+          >
+            <MoreVerticalIcon className="w-5 h-5" />
+          </button>
+          {isMenuOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-gray-700 rounded shadow-lg z-10">
               <button
                 onClick={() => {
                   addSystemColumns();
-                  setIsAddMenuOpen(false);
+                  setIsMenuOpen(false);
                 }}
-                className="w-full px-4 py-2 text-left text-gray-400 hover:bg-gray-600 hover:text-white rounded-b"
+                className="w-full px-4 py-2 text-left text-gray-400 hover:bg-gray-600 hover:text-white"
               >
-                システムカラムを追加
+                システムカラム追加
               </button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

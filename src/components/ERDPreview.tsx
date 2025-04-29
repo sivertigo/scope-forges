@@ -2,9 +2,9 @@
 
 import { TableData } from "@/data/definition";
 import mermaid from "mermaid";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { FileText } from "lucide-react";
+import { FileText, RefreshCw, Maximize2, Minimize2 } from "lucide-react";
 import { convertERDToMermaid } from "@/lib/utils";
 
 interface ERDPreviewProps {
@@ -13,8 +13,11 @@ interface ERDPreviewProps {
 
 export default function ERDPreview({ tables }: ERDPreviewProps) {
   const mermaidRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  useEffect(() => {
+  const renderMermaid = () => {
     if (mermaidRef.current) {
       mermaid.initialize({
         startOnLoad: true,
@@ -29,7 +32,11 @@ export default function ERDPreview({ tables }: ERDPreviewProps) {
         }
       });
     }
-  }, [tables]);
+  };
+
+  useEffect(() => {
+    renderMermaid();
+  }, [tables, refreshKey]);
 
   const handleExportText = () => {
     const mermaidCode = convertERDToMermaid(tables);
@@ -44,9 +51,66 @@ export default function ERDPreview({ tables }: ERDPreviewProps) {
     URL.revokeObjectURL(url);
   };
 
+  const handleRefresh = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
+
+  const toggleFullscreen = () => {
+    if (!containerRef.current) return;
+
+    if (!isFullscreen) {
+      containerRef.current.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    };
+  }, []);
+
   return (
-    <div className="bg-white p-4 rounded-lg shadow bg-gray-800">
+    <div
+      ref={containerRef}
+      className={`bg-white p-4 rounded-lg shadow bg-gray-800 ${
+        isFullscreen ? "fixed inset-0 z-50 p-8" : ""
+      }`}
+    >
       <div className="flex justify-end gap-2 mb-4">
+        <Button
+          onClick={handleRefresh}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <RefreshCw className="w-4 h-4" />
+          リフレッシュ
+        </Button>
+        <Button
+          onClick={toggleFullscreen}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          {isFullscreen ? (
+            <>
+              <Minimize2 className="w-4 h-4" />
+              全画面を閉じる
+            </>
+          ) : (
+            <>
+              <Maximize2 className="w-4 h-4" />
+              全画面表示
+            </>
+          )}
+        </Button>
         <Button
           onClick={handleExportText}
           variant="outline"
