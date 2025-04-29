@@ -1,4 +1,4 @@
-import Icon from "../icons/Icon";
+import { Icon } from "@/components/ui/icon";
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -9,6 +9,7 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
   const menuItems = [
     { icon: "home", label: "ホーム", href: "/" },
     { icon: "database", label: "ER図", href: "/erd" },
+    { icon: "screen", label: "画面", href: "/screens" },
     { icon: "settings", label: "設定", href: "/settings" },
   ];
 
@@ -31,7 +32,7 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
             className="flex items-center p-4 hover:bg-gray-700"
           >
             <Icon
-              name={item.icon as "home" | "database" | "settings"}
+              name={item.icon as "home" | "database" | "settings" | "screen"}
               size={20}
               className="mr-3"
             />

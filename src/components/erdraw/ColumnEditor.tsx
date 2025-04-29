@@ -3,7 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { POSTGRESQL_DATA_TYPES } from "@/consts/consts";
 import { ColumnData, TableData } from "@/data/definition";
-import { DeleteIcon, EditIcon } from "@/components/ui/icon";
+import { Icon } from "@/components/ui/icon";
+
 type ColumnProps = {
   column: ColumnData;
   onUpdate: (column: ColumnData) => void;
@@ -217,7 +218,7 @@ export default function ColumnEditor({
               }}
               className="text-blue-400 hover:text-blue-300"
             >
-              <EditIcon />
+              <Icon name="edit" />
             </button>
             <button
               onClick={(e) => {
@@ -226,7 +227,7 @@ export default function ColumnEditor({
               }}
               className="text-red-400 hover:text-red-300"
             >
-              <DeleteIcon />
+              <Icon name="delete" />
             </button>
           </div>
         </div>

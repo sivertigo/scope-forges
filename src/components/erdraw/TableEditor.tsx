@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Column from "@/components/erdraw/ColumnEditor";
 import { TableData, ColumnData } from "@/data/definition";
-import { DeleteIcon, PlusIcon, MoreVerticalIcon } from "@/components/ui/icon";
-
+import { Icon } from "@/components/ui/icon";
 const DEFAULT_VISIBLE_COLUMNS = 6;
 
 type TableProps = {
@@ -158,7 +157,7 @@ export default function Table({
           onClick={handleDelete}
           className="text-red-400 hover:text-red-300"
         >
-          <DeleteIcon />
+          <Icon name="delete" />
         </button>
       </div>
       <div className="space-y-2">
@@ -228,7 +227,7 @@ export default function Table({
           onClick={() => addColumn()}
           className="flex items-center justify-center w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          <PlusIcon className="w-4 h-4 mr-2" />
+          <Icon name="plus" />
           カラムを追加
         </button>
 
@@ -237,7 +236,7 @@ export default function Table({
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-2 text-gray-400 hover:text-white hover:bg-gray-600 rounded"
           >
-            <MoreVerticalIcon className="w-5 h-5" />
+            <Icon name="more-vertical" />
           </button>
           {isMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-gray-700 rounded shadow-lg z-10">
