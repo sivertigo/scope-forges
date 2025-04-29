@@ -11,7 +11,7 @@ interface ERDCreatorProps {
 
 type CreationMethod = "ai" | "import";
 
-export default function ERDCreator({ onTablesGenerated }: ERDCreatorProps) {
+export default function ERDCreateMenu({ onTablesGenerated }: ERDCreatorProps) {
   const [activeMethod, setActiveMethod] = useState<CreationMethod>("ai");
 
   return (

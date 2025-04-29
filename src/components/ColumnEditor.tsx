@@ -56,6 +56,7 @@ export default function ColumnEditor({
       type: columnType,
       isPrimaryKey,
       isForeignKey,
+      comment: "",
       foreignKeyReference: isForeignKey
         ? {
             tableId: foreignKeyTable,

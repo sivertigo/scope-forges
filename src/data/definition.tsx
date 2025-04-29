@@ -10,6 +10,7 @@ interface ColumnData {
   type: string;
   isPrimaryKey: boolean;
   isForeignKey: boolean;
+  comment: string;
   foreignKeyReference?: {
     tableId: string;
     columnId: string;

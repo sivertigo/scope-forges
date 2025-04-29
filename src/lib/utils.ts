@@ -1,5 +1,6 @@
 import { RelationInfo, TableData, ColumnData } from "@/data/definition";
 import { type ClassValue, clsx } from "clsx";
+import { table } from "console";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -46,6 +47,7 @@ export const parseMermaidToTables = (mermaidText: string): TableData[] => {
           id: (currentTable.columns.length + 1).toString(),
           name,
           type,
+          comment: "",
           isPrimaryKey: false,
           isForeignKey: trimmedLine.includes("FK"),
         };
@@ -60,6 +62,7 @@ export const parseMermaidToTables = (mermaidText: string): TableData[] => {
     if (relationMatch) {
       const [, sourceTable, relationType, targetTable, columnName] =
         relationMatch;
+      console.log(sourceTable, relationType, targetTable, columnName);
       relations.push({
         sourceTable,
         targetTable,
@@ -67,8 +70,37 @@ export const parseMermaidToTables = (mermaidText: string): TableData[] => {
         targetColumn: columnName,
         relationType,
       });
+      // 例：users ||--o{ Table3 column1
+      // この場合、
+      // sourceTable: users
+      // targetTable: Table3
+      // sourceColumn: column1
+      // targetColumn: column1
+      // relationType: --o
+      // targetTableとColumn側に定義をつける
     }
   }
+
+  // リレーションをテーブルに反映
+  relations.forEach((relation) => {
+    const sourceTable = tables.find((t) => t.name === relation.sourceTable);
+    const targetTable = tables.find((t) => t.name === relation.targetTable);
+
+    if (sourceTable && targetTable) {
+      // targetColumnにforeignKeyReferenceを追加
+      const targetColumn = targetTable.columns.find(
+        (c) => c.name === relation.targetColumn
+      );
+      if (targetColumn) {
+        targetColumn.foreignKeyReference = {
+          tableId: sourceTable.id,
+          columnId:
+            sourceTable.columns.find((c) => c.name === relation.sourceColumn)
+              ?.id || "",
+        };
+      }
+    }
+  });
 
   return tables;
 };

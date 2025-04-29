@@ -31,6 +31,7 @@ export default function Table({
       type: "varchar",
       isPrimaryKey: false,
       isForeignKey: false,
+      comment: "",
     };
     onUpdate({
       ...table,

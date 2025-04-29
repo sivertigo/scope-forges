@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Table from "@/components/Table";
+import TableEditor from "@/components/TableEditor";
 import { TableData } from "@/data/definition";
 import ERDPreview from "@/components/ERDPreview";
-import ERDCreator from "@/components/ERDCreator";
+import ERDCreateMenu from "@/components/ERDCreateMenu";
 
 export default function GUIEditor() {
   const [tables, setTables] = useState<TableData[]>([]);
@@ -20,7 +20,7 @@ export default function GUIEditor() {
 
   return (
     <div className="space-y-8">
-      <ERDCreator onTablesGenerated={setTables} />
+      <ERDCreateMenu onTablesGenerated={setTables} />
 
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">テーブル一覧</h2>
@@ -35,7 +35,7 @@ export default function GUIEditor() {
       <div className="flex flex-wrap gap-4">
         {tables.map((table) => (
           <div key={table.id} className="max-w-[500px] w-full">
-            <Table
+            <TableEditor
               table={table}
               onUpdate={(updatedTable) => {
                 setTables(
