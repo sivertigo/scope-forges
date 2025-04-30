@@ -1,4 +1,9 @@
-import { RelationInfo, TableData, ColumnData } from "@/data/definition";
+import {
+  RelationInfo,
+  TableData,
+  ColumnData,
+  Screen,
+} from "@/types/definition";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -247,3 +252,32 @@ export const generatePostgreSQLDDL = (tables: TableData[]): string => {
 
   return ddl;
 };
+
+export function generateMarkdownTable(screens: Screen[]): string {
+  const headers = ["画面名", "認証", "機能概要"];
+  const rows = screens.map((screen) => [
+    screen.name,
+    screen.requireAuth ? "認証必須" : "認証不要",
+    screen.description || "-",
+  ]);
+
+  const table = [
+    `| ${headers.join(" | ")} |`,
+    `| ${headers.map(() => "---").join(" | ")} |`,
+    ...rows.map((row) => `| ${row.join(" | ")} |`),
+  ].join("\n");
+
+  return table;
+}
+
+export function downloadMarkdown(content: string, filename: string) {
+  const blob = new Blob([content], { type: "text/markdown" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}

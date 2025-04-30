@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { TableData } from "@/data/definition";
+import { TableData } from "@/types/definition";
 import { parseMermaidToTables } from "@/lib/utils";
 import { Upload, Loader2 } from "lucide-react";
 

@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { TableData } from "@/data/definition";
+import { TableData } from "@/types/definition";
 import ERDGenerator from "./ERDGenerator";
-import MermaidImporter from "@/components/erdraw/MermaidImporter";
+import MermaidImporter from "@/app/erd/_components/MermaidImporter";
 
 interface ERDCreatorProps {
   onTablesGenerated: (tables: TableData[]) => void;

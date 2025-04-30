@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { TableData } from "@/data/definition";
-import ERDPreview from "@/components/erdraw/ERDPreview";
-import ERDCreateMenu from "@/components/erdraw/ERDCreateMenu";
-import TableTabs from "@/components/erdraw/TableTabs";
+import { TableData } from "@/types/definition";
+import ERDPreview from "@/app/erd/_components/ERDPreview";
+import ERDCreateMenu from "@/app/erd/_components/ERDCreateMenu";
+import TableTabs from "@/app/erd/_components/TableTabs";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid, Table, Eye, Save, Loader2, Trash2 } from "lucide-react";
 

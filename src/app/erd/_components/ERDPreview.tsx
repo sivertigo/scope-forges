@@ -1,6 +1,6 @@
 "use client";
 
-import { TableData } from "@/data/definition";
+import { TableData } from "@/types/definition";
 import mermaid from "mermaid";
 import { useEffect, useRef, useState } from "react";
 import { convertERDToMermaid, generatePostgreSQLDDL } from "@/lib/utils";

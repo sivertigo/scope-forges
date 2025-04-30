@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TableData } from "@/data/definition";
+import { TableData } from "@/types/definition";
 
 interface ERDGeneratorProps {
   onTablesGenerated: (tables: TableData[]) => void;

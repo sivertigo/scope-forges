@@ -11,7 +11,8 @@ interface IconProps {
     | "chevron-down"
     | "chevron-up"
     | "plus"
-    | "more-vertical";
+    | "more-vertical"
+    | "download";
   size?: number;
   className?: string;
 }
@@ -217,6 +218,24 @@ export function Icon({ name, size = 24, className = "" }: IconProps) {
           strokeLinejoin="round"
           d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
         />
+      </svg>
+    ),
+    download: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={className}
+      >
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
       </svg>
     ),
   };

@@ -24,26 +24,26 @@ interface RelationInfo {
   targetColumn: string;
   relationType: string;
 }
-interface UIElement {
+
+interface ScreenElement {
   id: string;
   type: string;
-  label: string;
-  value: string;
-  description: string;
-  required: boolean;
-}
-interface PreviewAreaProps {
-  sections: {
-    title: string;
-    elements: UIElement[];
-  }[];
-  title: string;
+  name: string;
+  properties: {
+    label?: string;
+    placeholder?: string;
+    required?: boolean;
+    options?: string[];
+    [key: string]: string | boolean | string[] | undefined;
+  };
 }
 
-export type {
-  TableData,
-  ColumnData,
-  RelationInfo,
-  UIElement,
-  PreviewAreaProps,
-};
+interface Screen {
+  id: string;
+  name: string;
+  description: string;
+  elements: ScreenElement[];
+  requireAuth: boolean;
+}
+
+export type { TableData, ColumnData, RelationInfo, Screen, ScreenElement };

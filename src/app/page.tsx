@@ -1,11 +1,11 @@
 "use client";
 
-import { ScreenDesignForm } from "@/components/ScreenDesignForm";
+import ScreenManager from "@/components/ScreenManager";
 
 export default function Home() {
   return (
     <main>
-      <ScreenDesignForm />
+      <ScreenManager />
     </main>
   );
 }

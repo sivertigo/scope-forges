@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { TableData } from "@/data/definition";
-import TableEditor from "@/components/erdraw/TableEditor";
+import { TableData } from "@/types/definition";
+import TableEditor from "@/app/erd/_components/TableEditor";
 import { cn } from "@/lib/utils";
 
 interface TableTabsProps {

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Column from "@/components/erdraw/ColumnEditor";
-import { TableData, ColumnData } from "@/data/definition";
+import Column from "@/app/erd/_components/ColumnEditor";
+import { TableData, ColumnData } from "@/types/definition";
 import { Icon } from "@/components/ui/icon";
 const DEFAULT_VISIBLE_COLUMNS = 6;
 

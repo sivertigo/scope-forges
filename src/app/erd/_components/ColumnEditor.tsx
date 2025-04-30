@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { POSTGRESQL_DATA_TYPES } from "@/consts/consts";
-import { ColumnData, TableData } from "@/data/definition";
+import { ColumnData, TableData } from "@/types/definition";
 import { Icon } from "@/components/ui/icon";
 
 type ColumnProps = {
