@@ -10,7 +10,7 @@ export default function FunctionManager() {
 
   const handleAddDefaultFunction = () => {
     const defaultFunction: Feature = {
-      id: Date.now().toString(),
+      id: (functions.length + 1).toString(),
       name: `機能${functions.length + 1}`,
       description: "",
       priority: "中",

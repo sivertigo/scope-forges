@@ -1,11 +1,12 @@
 import { Feature } from "@/types/definition";
 import { Icon } from "@/components/ui/icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface FunctionTableProps {
   functions: Feature[];
   onEdit: (func: Feature) => void;
   onDelete: (id: string) => void;
+  newFunctionId?: string;
 }
 
 interface EditableCellProps {
@@ -13,6 +14,7 @@ interface EditableCellProps {
   onChange: (value: string) => void;
   type?: "text" | "select";
   options?: { value: string; label: string }[];
+  isAutoFocus?: boolean;
   onKeyDown?: (
     e: React.KeyboardEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
@@ -23,6 +25,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   onChange,
   onKeyDown,
   type = "text",
+  isAutoFocus,
   options,
 }) => {
   const handleKeyDown = (
@@ -56,8 +59,8 @@ const EditableCell: React.FC<EditableCellProps> = ({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       onKeyDown={handleKeyDown}
+      autoFocus={isAutoFocus}
       className="w-full border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      autoFocus
     />
   );
 };
@@ -66,9 +69,20 @@ export default function FunctionTable({
   functions,
   onEdit,
   onDelete,
+  newFunctionId,
 }: FunctionTableProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editedFunction, setEditedFunction] = useState<Feature | null>(null);
+
+  useEffect(() => {
+    if (newFunctionId && !editingId) {
+      const newFunction = functions.find((f) => f.id === newFunctionId);
+      if (newFunction) {
+        setEditingId(newFunctionId);
+        setEditedFunction({ ...newFunction });
+      }
+    }
+  }, [newFunctionId, functions, editingId]);
 
   const priorityOptions = [
     { value: "高", label: "高" },
@@ -84,8 +98,8 @@ export default function FunctionTable({
 
   const handleEditStart = (func: Feature, e: React.MouseEvent) => {
     e.stopPropagation();
-    setEditingId(func.id);
-    setEditedFunction({ ...func });
+    setEditingId(func.id); // 編集対象のIDを設定
+    setEditedFunction({ ...func }); // 編集対象の関数を設定
   };
 
   const handleEditSave = () => {
@@ -168,8 +182,11 @@ export default function FunctionTable({
                     <EditableCell
                       value={editedFunction?.name || ""}
                       onChange={(value) => handleFieldChange("name", value)}
+                      isAutoFocus={true}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter") {
+                        // コマンドエンターで保存 コマンドエスケープでキャンセル
+                        // windowsはctrlキー
+                        if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
                           handleEditSave();
                         } else if (e.key === "Escape") {
                           handleEditCancel();
@@ -190,7 +207,7 @@ export default function FunctionTable({
                         handleFieldChange("description", value)
                       }
                       onKeyDown={(e) => {
-                        if (e.key === "Enter") {
+                        if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
                           handleEditSave();
                         } else if (e.key === "Escape") {
                           handleEditCancel();
