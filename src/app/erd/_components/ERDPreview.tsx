@@ -11,18 +11,23 @@ import {
   MinimizeIcon,
   FileTextIcon,
   DatabaseIcon,
+  CodeIcon,
 } from "./ERDIcons";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 
 interface ERDPreviewProps {
   tables: TableData[];
 }
+
+type ViewMode = "diagram" | "text";
 
 export default function ERDPreview({ tables }: ERDPreviewProps) {
   const mermaidRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("diagram");
 
   const renderMermaid = () => {
     if (mermaidRef.current) {
@@ -104,32 +109,62 @@ export default function ERDPreview({ tables }: ERDPreviewProps) {
           isFullscreen ? "fixed inset-0 z-50 p-8 overflow-auto" : ""
         }`}
       >
-        <div className="flex justify-end gap-2 mb-4">
-          <ERDIconButton
-            icon={<RefreshIcon />}
-            label="リフレッシュ"
-            onClick={handleRefresh}
-          />
-          <ERDIconButton
-            icon={isFullscreen ? <MinimizeIcon /> : <MaximizeIcon />}
-            label={isFullscreen ? "全画面を閉じる" : "全画面表示"}
-            onClick={toggleFullscreen}
-          />
-          <ERDIconButton
-            icon={<FileTextIcon />}
-            label="テキストとしてエクスポート"
-            onClick={handleExportText}
-          />
-          <ERDIconButton
-            icon={<DatabaseIcon />}
-            label="DDLをエクスポート"
-            onClick={handleExportDDL}
-          />
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex gap-2">
+            <Button
+              variant={viewMode === "diagram" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setViewMode("diagram")}
+              className="flex items-center gap-2"
+            >
+              <DatabaseIcon />
+              ER図
+            </Button>
+            <Button
+              variant={viewMode === "text" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setViewMode("text")}
+              className="flex items-center gap-2"
+            >
+              <CodeIcon />
+              Mermaidテキスト
+            </Button>
+          </div>
+          <div className="flex gap-2">
+            <ERDIconButton
+              icon={<RefreshIcon />}
+              label="リフレッシュ"
+              onClick={handleRefresh}
+            />
+            <ERDIconButton
+              icon={isFullscreen ? <MinimizeIcon /> : <MaximizeIcon />}
+              label={isFullscreen ? "全画面を閉じる" : "全画面表示"}
+              onClick={toggleFullscreen}
+            />
+            <ERDIconButton
+              icon={<FileTextIcon />}
+              label="テキストとしてエクスポート"
+              onClick={handleExportText}
+            />
+            <ERDIconButton
+              icon={<DatabaseIcon />}
+              label="DDLをエクスポート"
+              onClick={handleExportDDL}
+            />
+          </div>
         </div>
-        <div
-          ref={mermaidRef}
-          className="mermaid overflow-auto max-h-[calc(100vh-8rem)]"
-        ></div>
+        {viewMode === "diagram" ? (
+          <div
+            ref={mermaidRef}
+            className="mermaid overflow-auto max-h-[calc(100vh-8rem)]"
+          ></div>
+        ) : (
+          <div className="p-4 rounded-lg overflow-auto max-h-[calc(100vh-8rem)]">
+            <pre className="text-gray-700 whitespace-pre-wrap">
+              {convertERDToMermaid(tables)}
+            </pre>
+          </div>
+        )}
       </div>
     </TooltipProvider>
   );

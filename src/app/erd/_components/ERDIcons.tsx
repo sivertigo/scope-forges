@@ -4,6 +4,7 @@ import {
   Maximize2,
   Minimize2,
   Database,
+  Code,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,3 +39,4 @@ export const MaximizeIcon = () => <Maximize2 className="w-4 h-4" />;
 export const MinimizeIcon = () => <Minimize2 className="w-4 h-4" />;
 export const FileTextIcon = () => <FileText className="w-4 h-4" />;
 export const DatabaseIcon = () => <Database className="w-4 h-4" />;
+export const CodeIcon = () => <Code className="w-4 h-4" />;
