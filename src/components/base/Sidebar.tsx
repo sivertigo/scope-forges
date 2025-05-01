@@ -9,7 +9,7 @@ export default function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
   const menuItems = [
     { icon: "home", label: "ホーム", href: "/" },
     { icon: "database", label: "ER図", href: "/erd" },
-    { icon: "screen", label: "画面", href: "/screens" },
+    { icon: "screen", label: "機能", href: "/features" },
     { icon: "settings", label: "設定", href: "/settings" },
   ];
 

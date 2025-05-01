@@ -46,4 +46,19 @@ interface Screen {
   requireAuth: boolean;
 }
 
-export type { TableData, ColumnData, RelationInfo, Screen, ScreenElement };
+interface Feature {
+  id: string;
+  name: string;
+  description: string;
+  priority: "高" | "中" | "低";
+  status: "未着手" | "進行中" | "完了";
+}
+
+export type {
+  TableData,
+  ColumnData,
+  RelationInfo,
+  Screen,
+  ScreenElement,
+  Feature,
+};

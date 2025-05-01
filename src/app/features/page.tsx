@@ -1,6 +1,6 @@
 "use client";
 
-import ScreenManager from "@/components/ScreenManager";
+import ScreenManager from "@/app/features/_components/FunctionManager";
 
 export default function Home() {
   return (

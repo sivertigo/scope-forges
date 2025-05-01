@@ -2,7 +2,7 @@ import {
   RelationInfo,
   TableData,
   ColumnData,
-  Screen,
+  Feature,
 } from "@/types/definition";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -253,12 +253,13 @@ export const generatePostgreSQLDDL = (tables: TableData[]): string => {
   return ddl;
 };
 
-export function generateMarkdownTable(screens: Screen[]): string {
-  const headers = ["画面名", "認証", "機能概要"];
-  const rows = screens.map((screen) => [
-    screen.name,
-    screen.requireAuth ? "認証必須" : "認証不要",
-    screen.description || "-",
+export function generateMarkdownTable(features: Feature[]): string {
+  const headers = ["機能名", "説明", "優先度", "ステータス"];
+  const rows = features.map((feature) => [
+    feature.name,
+    feature.description,
+    feature.priority,
+    feature.status,
   ]);
 
   const table = [

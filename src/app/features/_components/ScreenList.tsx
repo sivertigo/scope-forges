@@ -1,5 +1,5 @@
 import { Screen } from "@/types/definition";
-import ScreenCard from "@/components/ScreenCard";
+import ScreenCard from "@/app/features/_components/ScreenCard";
 
 interface ScreenListProps {
   screens: Screen[];
